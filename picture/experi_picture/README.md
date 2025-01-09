@@ -1,0 +1,1 @@
+The matlab codes in this folder plot the changes in the mean square error of the estimated frequency, estimated mean and estimated null rate of the TSP,UP and BisSample as epsilon is varied in the experiment.
