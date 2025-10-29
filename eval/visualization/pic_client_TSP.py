@@ -3,7 +3,6 @@ import numpy as np
 
 # Set global font to Times New Roman
 plt.rcParams['font.family'] = 'Times New Roman'
-plt.rcParams['font.size'] = 12
 plt.rcParams['mathtext.fontset'] = 'stix'
 
 # Experimental data
@@ -26,35 +25,33 @@ bars_top = plt.bar(x_pos, upper_part, width, bottom=UP_pertubation_time, alpha=1
                   color=[0.0, 0.227, 0.459], edgecolor='navy', linewidth=1.5, 
                   label='TSP Time')
 
-plt.xlabel('Domain Size', fontsize=16, fontfamily='Times New Roman')
-plt.ylabel('Time/s', fontsize=16, fontfamily='Times New Roman')
+plt.xlabel('Domain Size ($\\times10^2$)', fontsize=28, fontfamily='Times New Roman')
+plt.ylabel('Time/s', fontsize=28, fontfamily='Times New Roman')
 
-# Set x-axis labels
-plt.xticks(x_pos, domain_collected)
+# Set x-axis labels to 1,2,...,10
+x_labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+plt.xticks(x_pos, x_labels)
 
 plt.grid(True, alpha=0.3, axis='y')
 
-# Add total time labels on bars
-for i, (bar_bottom, bar_top) in enumerate(zip(bars_bottom, bars_top)):
-    total_height = bar_bottom.get_height() + bar_top.get_height()
-    plt.text(bar_top.get_x() + bar_top.get_width()/2., total_height * 1.02,
-            f'{total_height:.1e}', ha='center', va='bottom', fontsize=10,
-            fontweight='bold', color='black', fontfamily='Times New Roman')
-
 # Set legend
-plt.legend(prop={'family': 'Times New Roman', 'size': 14}, 
+plt.legend(prop={'family': 'Times New Roman', 'size': 22}, 
            frameon=True, edgecolor='black', facecolor='white', loc='upper left')
 
 # Set axis ticks
-plt.tick_params(axis='both', which='major', labelsize=14, direction='in')
+plt.tick_params(axis='both', which='major', labelsize=28, direction='in')
 
 # Ensure x-axis tick labels use Times New Roman font
 for label in plt.gca().get_xticklabels():
     label.set_fontfamily('Times New Roman')
 
+# Set y-axis to use scientific notation
+plt.ticklabel_format(axis='y', style='sci', scilimits=(0,0))
+plt.gca().yaxis.get_offset_text().set_fontsize(28)
+
 # Set appropriate y-axis range
 max_total_time = max(TSP_pertubation_time)
-plt.ylim(bottom=0, top=max_total_time * 1.2)
+plt.ylim(bottom=0, top=max_total_time * 1.1)
 
 # Set x-axis range to make the chart look more compact
 plt.xlim(left=-0.5, right=len(domain_collected)-0.5)

@@ -61,7 +61,7 @@ Before running any method (including the proposed method and baseline methods), 
     <td>GentH</td>
   </tr>
   <tr>
-    <td><strong>Bisample vs TSP</strong></td>
+    <td><strong>Bisample</strong></td>
     <td>adult_salary_1</td>
     <td>GentH_1</td>
   </tr>
