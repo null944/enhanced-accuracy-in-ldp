@@ -4,6 +4,11 @@ import pandas as pd
 import numpy as np
 import time
 
+
+print("=" * 70)
+print("                               ARR Protocol")
+print("=" * 70)
+print(" " * 70)
 d = 2
 dataset = 'CDC_COST'
 Dataset = pd.read_csv('./data/processed/'+ dataset+'.csv', header=None)
@@ -17,7 +22,12 @@ domain_direct = 2
 domain_sensitive = 2
 epsilon = 0.1
 exp_eps = math.exp(epsilon)
-
+print(f" Dataset: {dataset}")
+print(f" Privacy Budget: {epsilon}")
+print(f" Number of Users: {num:,}")
+print(f" Attribute A Domain Size: {domain_direct}")
+print(f" Sensitive Attribute S Domain Size: {domain_sensitive}")
+print(" " * 70)
 sensitive_category = []#store all values of sensitive attribute S
 for i in range(domain_sensitive):
     sensitive_category.append(i+1)
@@ -92,6 +102,8 @@ initialize the joint frequency table
 row : sensitive attribute S
 column : direct_corelated attribute A
 '''
+print("============== Determine inherent uncertainty parameter ===============")
+
 joint_counts = np.zeros((domain_sensitive, domain_direct), dtype=int)
 #compute the joint frequency table N(S,A)
 for x, y in zip(column_sensitive, column_direct):
@@ -143,6 +155,9 @@ for i in range (domain_direct):
     result = choose(alpha_i,beta_i,alpha,beta)
     alpha = result[0]
     beta = result[1]
+print("(alpha,beta):",(alpha,beta))
+print(" " * 70)
+print("================= Recalibrate perturbation parameter =================")
 
 
 
@@ -150,9 +165,9 @@ for i in range (domain_direct):
 #p = math.exp(epsilon)/(math.exp(epsilon)-1+d)
 p = min(((1-alpha)-(1-beta)*exp_eps)/((1-d*alpha)-(1-d*beta)*exp_eps),1)
 q = 1-p
-#print('p',p)
-#print('q',q)
-
+print('p',p)
+print('q',q)
+print(" " * 70)
 
 
 def ARR(value):
@@ -173,7 +188,8 @@ for i in range(num):
 
 
 #############################Client Perturb#######################
-
+print("=========================== Client Perturb ===========================")
+print("Repeat 100 times")
 for i in range(100):
     print(i)
     perturb_result.clear()

@@ -4,7 +4,10 @@ import pandas as pd
 import numpy as np
 
 
-
+print("=" * 70)
+print("                              AGRR Protocol")
+print("=" * 70)
+print(" " * 70)
 dataset = 'adult_age'
 Dataset = pd.read_csv('./data/processed/'+dataset+'.csv', header=None)
 column_direct = Dataset.iloc[:,0]#corelated attribute A
@@ -13,10 +16,15 @@ num = len(column_direct)
 d = domain_direct = 100
 domain_sensitive = 2
 epsilon = 0.1
+print(f" Dataset: {dataset}")
+print(f" Privacy Budget: {epsilon}")
 exp_eps = math.exp(epsilon)
 perturb_result = []#Store the perturbed upload results for all users
 count_real = np.zeros(d).astype(int)#the real frequency table for attribute A
-
+print(f" Number of Users: {num:,}")
+print(f" Attribute A Domain Size: {domain_direct}")
+print(f" Sensitive Attribute S Domain Size: {domain_sensitive}")
+print(" " * 70)
 
 sensitive_category = []#store all values of sensitive attribute S
 for i in range(domain_sensitive):
@@ -53,6 +61,9 @@ def choose(alpha_k,beta_k,alpha,beta):
             return [alpha,beta]
 
 ##############Inherent uncertainty parameter selection by the collector##############
+
+print("============== Determine inherent uncertainty parameter ===============")
+
 
 '''
 step1
@@ -114,12 +125,16 @@ for i in range (domain_direct):
     result = choose(alpha_i,beta_i,alpha,beta)
     alpha = result[0]
     beta = result[1]
+print("(alpha,beta):",(alpha,beta))
+print(" " * 70)
+print("================= Recalibrate perturbation parameter =================")
 ##############Perturbation parameter calculation by the collector##############
 p = min(((1-alpha)-(1-beta)*exp_eps)/((1-d*alpha)-(1-d*beta)*exp_eps),1)
 q = (1-p)/(domain_direct-1)
 #p = math.exp(epsilon)/(math.exp(epsilon)-1+d)
 print('p:',p)
-
+print('q:',q)
+print(" " * 70)
 
 
 def GRR(value):
@@ -173,7 +188,8 @@ for i in range(num):
 
 
 #############################Client Perturb#######################
-
+print("=========================== Client Perturb ===========================")
+print("Repeat 100 times")
 for i in range(100):
     print(i)
     perturb_result.clear()

@@ -3,8 +3,12 @@ import random
 import pandas as pd
 import numpy as np
 
-epsilon = 1.5
 
+print("=" * 70)
+print("                              AOUE Protocol")
+print("=" * 70)
+print(" " * 70)
+epsilon = 1.5
 dataset = 'adult_age'
 Dataset = pd.read_csv('./data/processed/'+ dataset+'.csv', header=None)
 d = domain_direct = 100#domain of attribute A
@@ -16,7 +20,12 @@ num = len(column_direct)
 index_list = []#Store all possible parameter pairs
 perturb_result = []#Store the perturbed upload results for all users
 count_real = np.zeros(d).astype(int)#the real frequency table for attribute A
-
+print(f" Dataset: {dataset}")
+print(f" Privacy Budget: {epsilon}")
+print(f" Number of Users: {num:,}")
+print(f" Attribute A Domain Size: {domain_direct}")
+print(f" Sensitive Attribute S Domain Size: {domain_sensitive}")
+print(" " * 70)
 
 for a in range(domain_sensitive):
     catagory.append(a + 1)
@@ -48,6 +57,9 @@ initialize the joint frequency table
 row : sensitive attribute S
 column : direct_corelated attribute A
 '''
+
+print("============== Determine inherent uncertainty parameter ===============")
+
 joint_counts = np.zeros((domain_sensitive, domain_direct), dtype=int)
 #compute the joint frequency table N(S,A)
 for x, y in zip(column_sensitive, column_direct):
@@ -104,8 +116,10 @@ for list in index_list:
     result = choose(alpha_k,beta_k,alpha,beta)
     alpha = result[0]
     beta = result[1]
-print("alpha:",alpha)
-print("beta:",beta)
+print("(alpha,beta):",(alpha,beta))
+print(" " * 70)
+print("================= Recalibrate perturbation parameter =================")
+
 
 
 ##############Perturbation parameter calculation by the collector##############
@@ -113,9 +127,9 @@ print("beta:",beta)
 p = 1/2
 q = (alpha - beta*math.exp(epsilon)) / ((math.exp(epsilon)-1)+2*(alpha - beta*math.exp(epsilon)))
 #q = 1/(1+math.exp(epsilon))
-#print('p:',p)
-#print('q:',q)
-
+print('p:',p)
+print('q:',q)
+print(" " * 70)
 
 
 #encode
@@ -180,7 +194,8 @@ ave_error = []#store the MSE
 for i in range(num):
     value = int(column_direct.iloc[i])
     count_real[value-1] = count_real[value-1] + 1
-
+print("=========================== Client Perturb ===========================")
+print("Repeat 100 times")
 #############################Client Perturb#######################
 for j in range(100):#repeat 10 times
     perturb_result.clear()

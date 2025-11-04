@@ -3,7 +3,10 @@ import pandas as pd
 import numpy as np
 import random
 import time
-
+print("=" * 70)
+print("                               TSP Protocol")
+print("=" * 70)
+print(" " * 70)
 epsilon = 0.1
 exp_eps = math.exp(epsilon)
 dataset='GentH'
@@ -17,7 +20,12 @@ count_real = np.zeros(domain+1).astype(int)#the real frequency table for target 
 count_miss = np.zeros(domain).astype(int)#Number of missing values for different attribute values
 perturb_result = []#store all clients' data after TSP
 index_list = []#Store all possible parameter pairs
-
+print(f" Dataset: {dataset}")
+print(f" Privacy Budget: {epsilon}")
+print(f" Number of Users: {num:,}")
+print(f" Collected ATTRIBUTE Domain Size: {domain}")
+print(f" Missing Mechanism: {mechanism}")
+print(" " * 70)
 
 #compute the real frequency table for target collection attribute
 for i in range(num):
@@ -85,6 +93,8 @@ for i in range(domain):
 step1
 determine the conditional frequency table
 '''
+print("============== Determine inherent uncertainty parameter ===============")
+
 conditional_probs = np.zeros((domain, 2), dtype=float)#Initialize the conditional probability distribution table P(A|S)
 #compute the conditional probability distribution table
 for i in range(domain):
@@ -121,6 +131,9 @@ for i in range (2):
     alpha = result[0]
     beta = result[1]
 
+print("(alpha,beta):",(alpha,beta))
+print(" " * 70)
+print("================= Recalibrate perturbation parameter =================")
 
 
 
@@ -135,8 +148,11 @@ q2 = (1-p2)/domain
 p1 = min((exp_eps*p2+((domain-2)*exp_eps-(domain-1))*q2)/((domain-1+exp_eps)*(p2-q2)),1)
 q1 = max(0,(1-p1)/(domain-1))
     
-#print('p2:',p2)
-#print('q2:',q2)
+print('p1:',p1)
+print('q1:',q1)
+print('p2:',p2)
+print('q2:',q2)
+print(" " * 70)
 #print('p2*p1+(1-p2)*q1:',p2*p1+(1-p2)*q1)
 #print('q2*p1+(1-q2)*q1',q2*p1+(1-q2)*q1)
 
@@ -211,7 +227,8 @@ ave_error = []
 #mean_real = column.sum()/(num-count_real[0])
 #mean_real = a*mean_real +b
 
-
+print("=========================== Client Perturb ===========================")
+print("Repeat 100 times")
 #############################Client Perturb#######################
 for i in range(100):#repeat 100 times
     print(i)

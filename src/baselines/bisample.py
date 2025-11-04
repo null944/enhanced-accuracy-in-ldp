@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 import math
 import random
-
+print("=" * 70)
+print("                           Bisample Protocol")
+print("=" * 70)
+print(" " * 70)
 epsilon=1.5
 
 def BiSample_MD(value):   
@@ -57,6 +60,7 @@ def BiSample_MD(value):
 
 # generate missing dataset
 dataset='GentH_1'
+d = 5
 mechanism = 'MNAR'
 Dataset = pd.read_csv('./data/processed/'+ dataset+'.csv', header=None)
 Dataset1 = pd.read_csv('./data/processed/'+ dataset+'.csv', header=None)
@@ -67,7 +71,12 @@ for row in miss_list:#set missing positions to None
     i, j = int(row[0]), int(row[1])
     Dataset.iloc[i, j] =None
 Dataset.replace({np.nan: None}, inplace=True)
-
+print(f" Dataset: {dataset}")
+print(f" Privacy Budget: {epsilon}")
+print(f" Number of Users: {num:,}")
+print(f" Collected ATTRIBUTE Domain Size: {d}")
+print(f" Missing Mechanism: {mechanism}")
+print(" " * 70)
 if isinstance(Dataset, pd.DataFrame):
     # If it's a DataFrame, select first column and convert to Series
     data_series = Dataset.iloc[:, 0]
@@ -80,7 +89,7 @@ filtered_data = data_series[data_series.notna()]
 
 # Calculate mean
 mean_value = filtered_data.mean()
-print(mean_value)
+
 p=math.exp(epsilon)/(1+math.exp(epsilon))
 Perturb_result = []
 real_average = mean_value
@@ -91,7 +100,10 @@ Error_f = []
 Var_ave = []
 Var_f = []
 f_Pos = f_Neg = num_pos = num_neg = pos_per = neg_per =0
+print("============================== Perturb ==============================")
+print("Repeat 100 times")
 for i in range(100):
+    print(i)
     f_Pos = f_Neg = num_pos = num_neg = pos_per = neg_per =0
     for column in Dataset.columns: # perturb every column
         Perturb_result=[] #clear Perturb_result

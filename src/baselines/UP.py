@@ -3,8 +3,13 @@ import pandas as pd
 import math
 import random
 
-epsilon=1.5
 
+
+print("=" * 70)
+print("                                UP Protocol")
+print("=" * 70)
+print(" " * 70)
+epsilon=1.5
 # generate missing dataset
 dataset = 'GentH'
 d = 5
@@ -12,6 +17,12 @@ mechanism = 'MNAR'
 Dataset = pd.read_csv('./data/processed/'+ dataset+'.csv', header=None)
 num = len(Dataset)# the number of users
 miss_list = np.loadtxt('./data/processed/'+ dataset+'_1_miss_'+mechanism+'.csv', delimiter=",", skiprows=0)            
+print(f" Dataset: {dataset}")
+print(f" Privacy Budget: {epsilon}")
+print(f" Number of Users: {num:,}")
+print(f" Collected ATTRIBUTE Domain Size: {d}")
+print(f" Missing Mechanism: {mechanism}")
+print(" " * 70)
 for row in miss_list:
     i, j = int(row[0]), int(row[1])
     Dataset.iloc[i, j] = int(0)
@@ -19,6 +30,7 @@ for row in miss_list:
 p = math.exp(epsilon)/(math.exp(epsilon)+d)
 print('p',p)
 q = 1/(math.exp(epsilon)+d)
+print('q',q)
 column = Dataset.iloc[:,0].copy()
 def UP (value):
     possible_values = list(range(d+1))
@@ -39,7 +51,8 @@ for i in range(num):
     value = int(column.iloc[i])
     count_real[value] = count_real[value]+1
 
-
+print("=========================== Client Perturb ===========================")
+print("Repeat 100 times")
 for i in range(100):
     perturb_list = []
     square_error = np.zeros(d+1)
