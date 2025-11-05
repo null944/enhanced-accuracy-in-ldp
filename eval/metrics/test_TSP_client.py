@@ -47,7 +47,7 @@ for domain_collect in domain_collec_list:
     ave_time1.append(np.mean(SP_time))
     ave_time2.append(np.mean(total_time))
 
-# ""a":使用追加模式
+
 with open("./eval/results/time_cost_TSP_client.txt", "a") as f:
     f.write("\n" + "="*50 + "\n")  
     f.write("clock:" + time.strftime("%Y-%m-%d %H:%M:%S") + "\n")
